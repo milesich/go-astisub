@@ -13,8 +13,6 @@ import {
 } from './types';
 import { readFromSRT, writeToSRT } from './formats/srt';
 import { readFromWebVTT, writeToWebVTT } from './formats/webvtt';
-import { detectFormat } from './utils';
-import * as fs from 'fs';
 
 /**
  * Helper to convert Item to string for comparison
@@ -333,20 +331,6 @@ export function applyLinearCorrection(
 }
 
 /**
- * Read subtitles from a file
- */
-export function openFile(filename: string, _options?: Options): Subtitles {
-  const content = fs.readFileSync(filename, 'utf-8');
-  const format = detectFormat(filename);
-
-  if (!format) {
-    throw new InvalidExtensionError();
-  }
-
-  return readFromString(content, format);
-}
-
-/**
  * Read subtitles from a string with specified format
  */
 export function readFromString(
@@ -363,20 +347,6 @@ export function readFromString(
     default:
       throw new InvalidExtensionError();
   }
-}
-
-/**
- * Write subtitles to a file
- */
-export function writeFile(subtitles: Subtitles, filename: string): void {
-  const format = detectFormat(filename);
-
-  if (!format) {
-    throw new InvalidExtensionError();
-  }
-
-  const content = writeToString(subtitles, format);
-  fs.writeFileSync(filename, content, 'utf-8');
 }
 
 /**
