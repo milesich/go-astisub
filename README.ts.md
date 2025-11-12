@@ -42,30 +42,37 @@ yarn add astisub
 ### Reading Subtitles
 
 ```typescript
-import { openFile, readFromString } from 'astisub';
+import { readFromString } from 'astisub';
 
-// Read from file (auto-detects format from extension)
-const subtitles = openFile('/path/to/example.srt');
-
-// Read from string
+// Read from SRT string
 const srtContent = `1
 00:01:00,000 --> 00:02:00,000
 Hello World`;
 
-const subtitles2 = readFromString(srtContent, 'srt');
+const subtitles = readFromString(srtContent, 'srt');
+
+// Read from WebVTT string
+const vttContent = `WEBVTT
+
+1
+00:01:00.000 --> 00:02:00.000
+Hello World`;
+
+const subtitles2 = readFromString(vttContent, 'webvtt');
 ```
 
 ### Writing Subtitles
 
 ```typescript
-import { writeFile, writeToString } from 'astisub';
+import { writeToString } from 'astisub';
 
-// Write to file (auto-detects format from extension)
-writeFile(subtitles, '/path/to/output.srt');
-
-// Write to string
+// Write to SRT string
 const srtContent = writeToString(subtitles, 'srt');
 console.log(srtContent);
+
+// Write to WebVTT string
+const vttContent = writeToString(subtitles, 'webvtt');
+console.log(vttContent);
 ```
 
 ### Syncing Subtitles
@@ -105,13 +112,13 @@ unfragment(subtitles);
 
 ### Merging Subtitles
 
-Combine multiple subtitle files:
+Combine multiple subtitle sources:
 
 ```typescript
-import { merge, openFile } from 'astisub';
+import { merge, readFromString } from 'astisub';
 
-const subtitles1 = openFile('/path/to/file1.srt');
-const subtitles2 = openFile('/path/to/file2.srt');
+const subtitles1 = readFromString(srtContent1, 'srt');
+const subtitles2 = readFromString(srtContent2, 'srt');
 
 merge(subtitles1, subtitles2);
 ```
@@ -216,8 +223,6 @@ const stripped = stripHTMLTags('Hello <b>world</b>');    // "Hello world"
 
 ### Operations
 
-- `openFile(filename, options?)`: Read subtitles from file
-- `writeFile(subtitles, filename)`: Write subtitles to file
 - `readFromString(content, format, options?)`: Parse subtitles from string
 - `writeToString(subtitles, format)`: Convert subtitles to string
 - `add(subtitles, duration)`: Shift all timestamps
