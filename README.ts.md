@@ -4,22 +4,18 @@ TypeScript library for manipulating subtitle files across multiple formats.
 
 ## Status
 
-This is a TypeScript port of the [go-astisub](https://github.com/asticode/go-astisub) library.
+This is a TypeScript port of the [go-astisub](https://github.com/asticode/go-astisub) library, focused on SRT and WebVTT formats.
 
 **Currently Implemented:**
 - ✅ Core data structures (Subtitles, Item, Line, StyleAttributes, etc.)
 - ✅ Utility functions (duration parsing/formatting, HTML handling, line scanning)
 - ✅ SRT format parser and writer
+- ✅ WebVTT format parser and writer
 - ✅ Core operations (add, fragment, unfragment, merge, optimize, order, applyLinearCorrection)
 
-**TODO:**
-- ⏳ WebVTT format parser and writer
-- ⏳ TTML format parser and writer
-- ⏳ SSA/ASS format parser and writer
-- ⏳ STL format parser and writer
-- ⏳ Teletext format parser and writer
-- ⏳ CLI tool
-- ⏳ Complete test suite
+**Supported Formats:**
+- **SRT** (SubRip) - Full support with HTML tags and styling
+- **WebVTT** - Full support including regions, styles, cue settings, voice tags, and timestamps
 
 ## Installation
 
@@ -35,10 +31,11 @@ yarn add astisub
 
 ## Features
 
-- **Multiple formats**: SRT, WebVTT, TTML, SSA/ASS, STL, Teletext (some in progress)
+- **Multiple formats**: SRT and WebVTT with full feature support
 - **Operations**: Parsing, writing, syncing, fragmenting, unfragmenting, merging, optimizing, linear correction
 - **TypeScript**: Full type safety with TypeScript definitions
 - **Cross-platform**: Works in Node.js environments
+- **Advanced WebVTT**: Regions, styles, cue settings, voice tags, inline timestamps
 
 ## Usage
 
@@ -236,15 +233,19 @@ const stripped = stripHTMLTags('Hello <b>world</b>');    // "Hello world"
 
 ### Format Support
 
-Currently supported:
+Fully supported:
 - **SRT** (SubRip): `readFromSRT()`, `writeToSRT()`
+  - HTML-like tags: `<b>`, `<i>`, `<u>`, `<font color="...">`
+  - Position tags: `{\anX}` for numpad-style positioning
 
-Coming soon:
-- **WebVTT**: `readFromWebVTT()`, `writeToWebVTT()`
-- **TTML**: `readFromTTML()`, `writeToTTML()`
-- **SSA/ASS**: `readFromSSA()`, `writeToSSA()`
-- **STL**: `readFromSTL()`, `writeToSTL()`
-- **Teletext**: `readFromTeletext()`, `writeToTeletext()`
+- **WebVTT** (Web Video Text Tracks): `readFromWebVTT()`, `writeToWebVTT()`
+  - Regions with positioning and scrolling
+  - Styles and CSS
+  - Cue settings: align, line, position, size, vertical
+  - Voice tags: `<v Speaker Name>`
+  - Inline timestamps: `<00:00:10.000>`
+  - Formatting tags: `<b>`, `<i>`, `<u>`, `<c>` (with classes)
+  - X-TIMESTAMP-MAP for MPEG-TS synchronization
 
 ## Building
 

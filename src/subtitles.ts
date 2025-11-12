@@ -12,6 +12,7 @@ import {
   Options,
 } from './types';
 import { readFromSRT, writeToSRT } from './formats/srt';
+import { readFromWebVTT, writeToWebVTT } from './formats/webvtt';
 import { detectFormat } from './utils';
 import * as fs from 'fs';
 
@@ -356,15 +357,9 @@ export function readFromString(
   switch (format.toLowerCase()) {
     case 'srt':
       return readFromSRT(content);
-    // TODO: Add other formats
-    // case 'webvtt':
-    // case 'vtt':
-    //   return readFromWebVTT(content);
-    // case 'ttml':
-    //   return readFromTTML(content);
-    // case 'ssa':
-    // case 'ass':
-    //   return readFromSSA(content);
+    case 'webvtt':
+    case 'vtt':
+      return readFromWebVTT(content);
     default:
       throw new InvalidExtensionError();
   }
@@ -395,15 +390,9 @@ export function writeToString(subtitles: Subtitles, format: string): string {
   switch (format.toLowerCase()) {
     case 'srt':
       return writeToSRT(subtitles);
-    // TODO: Add other formats
-    // case 'webvtt':
-    // case 'vtt':
-    //   return writeToWebVTT(subtitles);
-    // case 'ttml':
-    //   return writeToTTML(subtitles);
-    // case 'ssa':
-    // case 'ass':
-    //   return writeToSSA(subtitles);
+    case 'webvtt':
+    case 'vtt':
+      return writeToWebVTT(subtitles);
     default:
       throw new InvalidExtensionError();
   }
